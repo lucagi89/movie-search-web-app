@@ -30,12 +30,16 @@ function render(objArray){
     objArray.map(movie => {
         const {Title, imdbRating, Runtime, Genre, Plot, Poster} = movie
         html += `
-        <h1>${Title}</h1>
-        <p>${imdbRating}</p><p>${Runtime}</p>
-        <h3>${Genre}</h3>
-        <p>${Plot}</p>
-        <img src='${Poster}'>
+        <div id='movie-post'>
+            <img src='${Poster}' id='movie-poster'>
+            <div id='movie-description'>
+                <div id='top'><h3>${Title}</h3><p><img src = './images/staricon.svg'> ${imdbRating}</p></div>
+                <div id='middle'><p>${Runtime}</p><p>${Genre}</p><button><img src='./images/addbtn.png'> Watchlist</button></div>
+                <p id='bottom'>${Plot}</p>
+            </div>
+        </div>
         `
     })
+    console.log(html)
     document.getElementById('movies-list').innerHTML = html
 }
