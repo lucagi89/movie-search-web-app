@@ -6,6 +6,13 @@
 
 body{
     min-width: 390px;
+    min-height: 100vh;
+    overflow:scroll;
+    /* border: solid red; */
+}
+
+button{
+    cursor: pointer;
 }
 
 
@@ -25,46 +32,55 @@ header{
 }
 
   
-  
-header h1{
-}
-  
 
-header a{
+a{
     text-decoration: none; 
     color: inherit; 
     font-size: 20px;
 }
 
-header a:hover{
+a:hover{
     cursor: pointer;
 }
 
+#content-container{
+    height:100%;
+    min-height: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(27, 27, 27);
+}
+
 #input-search-container{
-    margin: -20px auto 0px;
+    position: relative;
+    margin: -26px auto -26px;
     display: flex;
     width:80%;
-    max-width: 600px;
+    max-width: 700px;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    background-color: white;
-    border: solid 1px grey;
-    height:42px;
+    background-color: rgb(87, 87, 87);
+    border: solid 2px rgb(157, 157, 157);
+    height:52px;
 }
 #search-img{
     flex-grow: 0.2;
-    height: 25px;
+    height: 30px;
     /* border: solid red; */
     
 }
 
 #title-input{
     flex-grow: 3;
-    height:40px;
+    height:50px;
     border: 0px;
-    border-right: solid 1px grey;
-    
+    border-right: solid 2px rgb(157, 157, 157);
+    font-size: 18px;
+    background: none;
+    color: white;
 }
 
 #title-input:focus{
@@ -74,73 +90,120 @@ header a:hover{
 
 #src-btn{
     flex-grow: 2;
-    height: 40px;
+    height: 50px;
     border: solid 1px grey;
     border: none;
-    cursor: pointer;
+    background-color: rgba(135, 118, 98, 0.653);
+    color: rgb(27, 27, 27);
     border-radius: 0px 10px 10px 0px;
-    font-size: 16px;
+    font-size: 18px;
 }
 
-#content-container{
-    /* border: solid red; */
+#movies-list{
+    margin-top: 26px;
+    padding-top: 20px;
+    width: 100%;
+    min-height:100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     position: relative;
+    background-color: rgb(27, 27, 27);
 }
 
-#content-container::before{
+#placeholder-img{
+    filter: opacity(35%);
     position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    width:100%;
-    height:100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
+#placeholder{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap:20px;
+    font-size: 13px;
+}
+
+#placeholder h2{
+    color:rgb(157, 157, 157);
+}
+
+#placeholder a{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: rgb(255, 255, 255);
+}
+
 
 #movie-post{
-    width: 80%;
-    max-width: 600px;
-    height: 250px;
+    width: 90%;
+    max-width: 800px;
+    height: 200px;
     margin: 0 50px;
     padding:20px 0px 20px 0px;
     border-bottom: solid 1px grey; 
     display: flex;
     gap:15px;
-    z-index: 5;
 }
 
 #movie-poster{
     height: 100%;
-    width: 130px;
+    width: 110px;
 }
 
 #movie-description{
     padding: 20px 0px 20px 0px;
     flex-grow: 3;
-    font-size: 15px;
+    font-size: 11px;
+    
+    
+    color:rgb(157, 157, 157);
 }
 
 #top{
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     gap: 10px;
 }
 
+#top p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    gap:2px;
+}
+
+#top p img{
+    align-self: flex-start;
+}
+
 #middle{
+    /* border: solid red; */
     height:25px;
-    line-height: 25px;
+    font-size: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
 #middle button{
+    /* border: solid red; */
+    color:rgb(157, 157, 157);
     background: none;
+    font-size: 11px;
     display:flex;
     flex-direction: row;
     justify-content: space-between;
@@ -150,7 +213,53 @@ header a:hover{
 }
 
 #middle button img{
-    width:15px;
+    width:12px;
+    filter: grayscale(100%);
+    filter: brightness(90%);
+}
+
+
+
+@media(min-width:600px){
+
+    #movie-post{
+        height: 250px;
+    }
+    #movie-poster{
+        width: 140px;
+    }
+    
+    #movie-description{
+        font-size: 15px;
+    }
+    
+    
+    #top p{
+        width: 40px;
+    }
+
+    #top p img{
+        align-self: center;
+        width:17px
+    }
+    
+    #middle{
+        font-size: 13px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    #middle button{
+        font-size: 11px;
+    }
+    
+    #middle button img{
+        width:14px;
+    }
+
+    #placeholder-img{
+        width:250px;
+    }
 }
 
 @media(min-width:700px){
@@ -159,6 +268,47 @@ header a:hover{
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+        font-size: 40px;
+    }
+
+    header a{
+        font-size: 35px;
+    }
+
+    #movie-post{
+        height: 340px;
+        margin: 10px 0;
+        padding: 40px 0;
+    }
+    #movie-poster{
+        width: 170px;
+    }
+    
+    #movie-description{
+        font-size: 20px;
+    }
+    
+    
+    #top p{
+        width: 50px;
+    }
+    
+    #middle{
+        font-size: 18px;
+        margin-top: 20px;
+        margin-bottom: 20px;    
+    }
+    
+    #middle button{
+        font-size: 18px;
+    }
+    
+    #middle button img{
+        width:25px;
+    }
+
+    #placeholder-img{
+        width:350px;
     }
 
 }

@@ -26,8 +26,9 @@ function getFullMovieData(moviesId){
 
 function render(objArray){
     let html = ''
+    let sortedArray = objArray.sort((a, b) => b.imdbRating - a.imdbRating)
     
-    objArray.map(movie => {
+    sortedArray.map(movie => {
         const {Title, imdbRating, Runtime, Genre, Plot, Poster} = movie
         html += `
         <div id='movie-post'>
@@ -40,6 +41,5 @@ function render(objArray){
         </div>
         `
     })
-    console.log(html)
     document.getElementById('movies-list').innerHTML = html
 }
