@@ -3,18 +3,33 @@ import { Movie } from './movie-class.js'
 
 const moviesList = document.getElementById('movies-list')
 const placeholderImg = document.getElementById('placeholder-img')
+const btnsContainer = document.getElementById('btns-container')
 
-let moviesHtml = ''
+// VARIABLES
+// variable to store the html of the movies posts
 const myKey = '141dd68d'
 let page = 1
 let movies = []
-export let watchlist = []
+let watchlist = localStorage.getItem('watchlist') ? JSON.parse(localStorage.getItem('watchlist')) : []
+let moviesHtml = localStorage.getItem('moviesHtml') ? JSON.parse(localStorage.getItem('moviesHtml')) : ''
 
+
+// function to get the value of the input field(title)
+function getInputValue(){
+    return document.getElementById('title-input').value
+}
+// function to get the link for the api
+function getLink(){
+    return `http://www.omdbapi.com/?s=${getInputValue()}&apikey=${myKey}&page=${page}`
+}
+
+// event listener that listens for all the clicks on the page
 document.addEventListener('click', (e) => {
     if(e.target.id === 'src-btn'){
-        moviesList.innerHTML = ''
-        placeholderImg.src = './images/loading.gif'
         getData()
+    } else if(e.target.id === 'title-input'){
+        localStorage.clear(moviesHtml)
+        moviesList.innerHTML = ''
     } else if(e.target.id === 'next-page-btn'){
         page++
         getData()
@@ -25,61 +40,75 @@ document.addEventListener('click', (e) => {
         }
         getData()
     } else if(e.target.id === 'watchlist-btn'){
-        addToChecklist()
+        addToWatchlist(e)
     }else if (e.target.id === 'remove-btn'){
-        removeFromChecklist()
+        removeFromWatchlist(e)
     } 
 })
 
-function addToChecklist(){
-    const movieId = e.target.parentElement.parentElement.parentElement.dataset.movie
+//function to add a movie to the watchlist
+function addToWatchlist(e){
+    const movieId = e.target.dataset.movie
     const movie = movies.find(movie => movie.imdbID === movieId)
+    movie.imdbID += '+'
+    console.log(movie.imdbID)
     watchlist.push(movie)
-    //localStorage.setItem('watchlist', JSON.stringify(watchlist))
-    //e.target.innerHTML = '<img src="./images/checkmark.png"> Added'
-        //e.target.disabled = true
-}
-
-function removeFromChecklist(){
-    const movieId = e.target.parentElement.parentElement.parentElement.dataset.movie
-        const movie = movies.find(movie => movie.imdbID === movieId)
-        watchlist = watchlist.filter(movie => movie.imdbID !== movieId)
-        //localStorage.setItem('watchlist', JSON.stringify(watchlist))
-}
-
-
-
-function getLink(){
-    return `http://www.omdbapi.com/?s=${getInputValue()}&apikey=${myKey}&page=${page}`
-}
-
-function getInputValue(){
-    return document.getElementById('title-input').value
-}
-
-async function getData(){
-    const res = await fetch(getLink())
-    const data = await res.json()
-    data.Search.forEach(movie => {
-        getMoviesData(movie.imdbID)
-    })
-    setTimeout( () => {
-    placeholderImg.style.display = 'none'
+    localStorage.setItem('watchlist', JSON.stringify(watchlist))
+    console.log(watchlist)
     render()
-    }, 1000)
 }
 
-function render(){
-    moviesList.innerHTML = moviesHtml
-    moviesHtml = ''
+//function to remove a movie from the watchlist
+function removeFromWatchlist(e){
+    const movieId = e.target.dataset.movie
+    const movie = movies.find(movie => movie.imdbID === movieId)
+    const indexMovie = watchlist.indexOf(movie)
+    // movies.splice(indexMovie, 1)
+    movie.imdbID = movie.imdbID.slice(0, -1)
+   
+    
+    watchlist.splice(indexMovie, 1)
+    localStorage.setItem('watchlist', JSON.stringify(watchlist))
+    console.log(watchlist)
+    render()
+}
+
+//function to get the movies page from the api
+async function getData(){
+    try{
+        const res = await fetch(getLink())
+        const data = await res.json()
+        const moviesData = await Promise.all(data.Search.map(movie => {
+            return getEachMovieData(movie.imdbID);
+          }));
+
+        render()
+    } catch(err){
+        console.log(err)
+    }
 }
 
 
-
-async function getMoviesData(movieId){
+//function to get more specific data of each movie
+async function getEachMovieData(movieId){
+    try{
     const response = await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${myKey}`)
     const data = await response.json()
     movies.push(data)
-    moviesHtml += new Movie(data).renderThisMovie()
+    } catch(err){
+        console.log(err)
+    }
 }
 
+function render(){
+    moviesList.innerHTML = ''
+    movies.forEach(movie => {
+        const movieClass = new Movie(movie)
+        moviesList.innerHTML += movieClass.renderThisMovie()
+    })
+    moviesHtml = moviesList.innerHTML
+    localStorage.setItem('moviesHtml', JSON.stringify(moviesHtml))
+    
+}
+
+//localStorage.clear()

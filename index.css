@@ -191,12 +191,16 @@ a:hover{
 
 #middle{
     /* border: solid red; */
-    height:25px;
+    height:15px;
     font-size: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
+}
+
+#middle-bottom{
+    font-size: 15px;
     margin-bottom: 10px;
 }
 
@@ -219,17 +223,18 @@ a:hover{
     filter: brightness(90%);
 }
 
-#btns-container{
+.btns-container{
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
-    margin-bottom: 20px;
     position: fixed;
-    bottom: 20px;
+    bottom: 0px;
+    background-color: rgb(87, 87, 87);
 }
 
-#btns-container button{
+.btns-container button{
     border: 2px solid rgb(157, 157, 157);
     background: rgb(87, 87, 87);
     color: rgb(27, 27, 27);
@@ -239,6 +244,9 @@ a:hover{
     cursor: pointer;
 }
 
+.hidden{
+    display: none;
+}
 
 
 @media(min-width:600px){
