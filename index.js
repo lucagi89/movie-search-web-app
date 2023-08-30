@@ -47,7 +47,7 @@ document.addEventListener('click', (e) => {
 })
 
 //function to add a movie to the watchlist
-function addToWatchlist(e){
+export function addToWatchlist(e){
     const movieId = e.target.dataset.movie
     const movie = movies.find(movie => movie.imdbID === movieId)
     movie.imdbID += '+'
@@ -59,7 +59,7 @@ function addToWatchlist(e){
 }
 
 //function to remove a movie from the watchlist
-function removeFromWatchlist(e){
+export function removeFromWatchlist(e){
     const movieId = e.target.dataset.movie
     const movie = movies.find(movie => movie.imdbID === movieId)
     const indexMovie = watchlist.indexOf(movie)
@@ -111,4 +111,4 @@ function render(){
     
 }
 
-//localStorage.clear()
+localStorage.clear()

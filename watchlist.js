@@ -2,12 +2,27 @@
 import { Movie } from './movie-class.js'
 
 const moviesList = document.getElementById('movies-list')
-
-
+const placeholderDiv = document.getElementById('placeholder-div')
 const watchlist = localStorage.getItem('watchlist') ? JSON.parse(localStorage.getItem('watchlist')) : []
 
+
+document.addEventListener('click', (e) => {
+    if (e.target.id === 'remove-btn'){
+        removeFromWatchlist(e)
+    } 
+})
+
+function removeFromWatchlist(e){
+    const movieId = e.target.dataset.movie
+    const movie = watchlist.find(movie => movie.imdbID === movieId)
+    movie.imdbID = movie.imdbID.slice(0, -1)
+    const index = watchlist.indexOf(movie)
+    watchlist.splice(index, 1)
+    localStorage.setItem('watchlist', JSON.stringify(watchlist))
+    renderWatchlist()
+}
+
 function renderWatchlist(){
-    moviesList.innerHTML = ''
     watchlist.forEach(movie => {
         const movieObj = new Movie(movie)
         moviesList.innerHTML += movieObj.renderThisMovie()

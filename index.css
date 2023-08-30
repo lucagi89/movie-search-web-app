@@ -29,6 +29,7 @@ header{
     color:white;
     font-size: 25px;
     text-shadow: 2px 2px 4px black;
+    padding: 0px 20px 0px 20px;
 }
 
   
@@ -41,6 +42,7 @@ a{
 
 a:hover{
     cursor: pointer;
+    color: rgb(255, 231, 96);
 }
 
 #content-container{
@@ -99,6 +101,11 @@ a:hover{
     font-size: 18px;
 }
 
+#src-btn:hover{
+    background-color: rgba(58, 40, 20, 0.753);
+    color: white;
+}
+
 .movies-list{
     margin-top: 26px;
     padding-top: 20px;
@@ -120,7 +127,7 @@ a:hover{
     transform: translate(-50%, -50%);
 }
 
-#placeholder-div{
+.placeholder-div{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -133,11 +140,11 @@ a:hover{
     font-size: 13px;
 }
 
-#placeholder-div h2{
+.placeholder-div h2{
     color:rgb(157, 157, 157);
 }
 
-#placeholder-div a{
+.placeholder-div a{
     display: flex;
     align-items: center;
     gap: 7px;
