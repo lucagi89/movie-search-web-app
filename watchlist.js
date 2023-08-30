@@ -4,7 +4,7 @@ import { Movie } from './movie-class.js'
 const moviesList = document.getElementById('movies-list')
 const placeholderDiv = document.getElementById('placeholder-div')
 const watchlist = localStorage.getItem('watchlist') ? JSON.parse(localStorage.getItem('watchlist')) : []
-
+const initialHtml = moviesList.innerHTML
 
 document.addEventListener('click', (e) => {
     if (e.target.id === 'remove-btn'){
@@ -23,6 +23,11 @@ function removeFromWatchlist(e){
 }
 
 function renderWatchlist(){
+    if(watchlist.length === 0){
+        moviesList.innerHTML = initialHtml
+    } else {
+        moviesList.innerHTML = ''
+    }
     watchlist.forEach(movie => {
         const movieObj = new Movie(movie)
         moviesList.innerHTML += movieObj.renderThisMovie()

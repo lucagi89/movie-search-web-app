@@ -5,13 +5,14 @@ const moviesList = document.getElementById('movies-list')
 const placeholderImg = document.getElementById('placeholder-img')
 const btnsContainer = document.getElementById('btns-container')
 
+
 // VARIABLES
 // variable to store the html of the movies posts
 const myKey = '141dd68d'
 let page = 1
 let movies = []
 let watchlist = localStorage.getItem('watchlist') ? JSON.parse(localStorage.getItem('watchlist')) : []
-let moviesHtml = localStorage.getItem('moviesHtml') ? JSON.parse(localStorage.getItem('moviesHtml')) : ''
+let totalResults = 0
 
 
 // function to get the value of the input field(title)
@@ -26,18 +27,18 @@ function getLink(){
 // event listener that listens for all the clicks on the page
 document.addEventListener('click', (e) => {
     if(e.target.id === 'src-btn'){
+        page = 1
         getData()
     } else if(e.target.id === 'title-input'){
-        localStorage.clear(moviesHtml)
-        moviesList.innerHTML = ''
+        clearPage()
     } else if(e.target.id === 'next-page-btn'){
         page++
+        if (document.getElementById('prev-page-btn').style.display = 'none'){
+            document.getElementById('prev-page-btn').style.display = 'block'
+        }
         getData()
     } else if(e.target.id === 'prev-page-btn'){
         page--
-        if (page === 1 ){
-            document.getElementById('prev-page-btn').style.display = 'none'
-        }
         getData()
     } else if(e.target.id === 'watchlist-btn'){
         addToWatchlist(e)
@@ -46,45 +47,51 @@ document.addEventListener('click', (e) => {
     } 
 })
 
+function clearPage(){
+    movies = []
+    localStorage.clear('movies')
+    render()
+}
+
 //function to add a movie to the watchlist
-export function addToWatchlist(e){
+function addToWatchlist(e){
     const movieId = e.target.dataset.movie
     const movie = movies.find(movie => movie.imdbID === movieId)
     movie.imdbID += '+'
-    console.log(movie.imdbID)
     watchlist.push(movie)
     localStorage.setItem('watchlist', JSON.stringify(watchlist))
-    console.log(watchlist)
     render()
 }
 
 //function to remove a movie from the watchlist
-export function removeFromWatchlist(e){
+function removeFromWatchlist(e){
     const movieId = e.target.dataset.movie
     const movie = movies.find(movie => movie.imdbID === movieId)
     const indexMovie = watchlist.indexOf(movie)
-    // movies.splice(indexMovie, 1)
     movie.imdbID = movie.imdbID.slice(0, -1)
-   
-    
     watchlist.splice(indexMovie, 1)
     localStorage.setItem('watchlist', JSON.stringify(watchlist))
-    console.log(watchlist)
     render()
 }
 
 //function to get the movies page from the api
 async function getData(){
+    clearPage()
     try{
         const res = await fetch(getLink())
         const data = await res.json()
-        const moviesData = await Promise.all(data.Search.map(movie => {
-            return getEachMovieData(movie.imdbID);
-          }));
+        totalResults = data.totalResults
+        if(data.Error){
+            moviesList.innerHTML = `<h1 class="error-msg">${"Sorry... " + data.Error}</h1>`
+        }else{
+        const moviesData = await Promise.all(data.Search.map(movie => 
+             getEachMovieData(movie.imdbID)
+          ))
 
         render()
-    } catch(err){
-        console.log(err)
+        }
+    } catch(error){ 
+        console.log(error)
     }
 }
 
@@ -95,20 +102,30 @@ async function getEachMovieData(movieId){
     const response = await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${myKey}`)
     const data = await response.json()
     movies.push(data)
+
     } catch(err){
         console.log(err)
     }
 }
 
 function render(){
-    moviesList.innerHTML = ''
-    movies.forEach(movie => {
-        const movieClass = new Movie(movie)
-        moviesList.innerHTML += movieClass.renderThisMovie()
-    })
-    moviesHtml = moviesList.innerHTML
-    localStorage.setItem('moviesHtml', JSON.stringify(moviesHtml))
-    
+    if(movies.length > 0){
+        moviesList.innerHTML = ''
+        btnsContainer.classList.remove('hidden')
+        document.getElementById('page-counter').innerHTML = page + " of " + Math.ceil(totalResults / 10)
+        movies.forEach(movie => {
+            const movieClass = new Movie(movie)
+            moviesList.innerHTML += movieClass.renderThisMovie()
+        })
+    }else{
+        btnsContainer.classList.add('hidden')
+        if (page === 1 ){
+            document.getElementById('prev-page-btn').style.display = 'none'
+        }
+        moviesList.innerHTML = ''
+        moviesList.appendChild(placeholderImg)
+    }
 }
 
-localStorage.clear()
+render()
+
