@@ -21,7 +21,7 @@ function getInputValue(){
 }
 // function to get the link for the api
 function getLink(){
-    return `http://www.omdbapi.com/?s=${getInputValue()}&apikey=${myKey}&page=${page}`
+    return `https://www.omdbapi.com/?s=${getInputValue()}&apikey=${myKey}&page=${page}`
 }
 
 // event listener that listens for all the clicks on the page
@@ -104,7 +104,7 @@ async function getData(){
 //function to get more specific data of each movie
 async function getEachMovieData(movieId){
     try{
-    const response = await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${myKey}`)
+    const response = await fetch(`https://www.omdbapi.com/?i=${movieId}&apikey=${myKey}`)
     const data = await response.json()
     movies.push(data)
 
