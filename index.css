@@ -130,12 +130,18 @@ a:hover{
     text-align: center;
 }
 
-#placeholder-img{
+#placeholder-img,
+#placeholder-gif{
     filter: opacity(35%);
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#placeholder-gif{
+    width: 100px;
+    height: 100px;
 }
 
 .placeholder-div{

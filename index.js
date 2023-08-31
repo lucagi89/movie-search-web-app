@@ -3,6 +3,8 @@ import { Movie } from './movie-class.js'
 
 const moviesList = document.getElementById('movies-list')
 const placeholderImg = document.getElementById('placeholder-img')
+
+const placeholderGif = document.getElementById('placeholder-gif')
 const btnsContainer = document.getElementById('btns-container')
 
 
@@ -84,6 +86,8 @@ async function getData(){
         if(data.Error){
             moviesList.innerHTML = `<h1 class="error-msg">${"Sorry... " + data.Error}</h1>`
         }else{
+            placeholderGif.classList.remove('hidden')
+            moviesList.appendChild(placeholderGif)
         const moviesData = await Promise.all(data.Search.map(movie => 
              getEachMovieData(movie.imdbID)
           ))
@@ -123,9 +127,7 @@ function render(){
             document.getElementById('prev-page-btn').style.display = 'none'
         }
         moviesList.innerHTML = ''
-        moviesList.appendChild(placeholderImg)
     }
 }
 
-render()
 
