@@ -2,8 +2,6 @@
 import { Movie } from './movie-class.js'
 
 const moviesList = document.getElementById('movies-list')
-const placeholderImg = document.getElementById('placeholder-img')
-
 const placeholderGif = document.getElementById('placeholder-gif')
 const btnsContainer = document.getElementById('btns-container')
 
@@ -49,6 +47,7 @@ document.addEventListener('click', (e) => {
     } 
 })
 
+// function to clear the page
 function clearPage(){
     movies = []
     localStorage.clear('movies')
@@ -59,6 +58,7 @@ function clearPage(){
 function addToWatchlist(e){
     const movieId = e.target.dataset.movie
     const movie = movies.find(movie => movie.imdbID === movieId)
+    // I added a '+' to the imdbID of the movie to know if it's already added to the watchlist
     movie.imdbID += '+'
     watchlist.push(movie)
     localStorage.setItem('watchlist', JSON.stringify(watchlist))
@@ -86,6 +86,7 @@ async function getData(){
         if(data.Error){
             moviesList.innerHTML = `<h1 class="error-msg">${"Sorry... " + data.Error}</h1>`
         }else{
+            // I added a loading gif to show that the movies are loading
             placeholderGif.classList.remove('hidden')
             moviesList.appendChild(placeholderGif)
         const moviesData = await Promise.all(data.Search.map(movie => 
