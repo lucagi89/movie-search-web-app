@@ -7,11 +7,14 @@
 body{
     min-width: 390px;
     min-height: 100vh;
-    overflow:scroll;
+    overflow: scroll;
 }
 
 button{
     cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+
 }
 
 header{
@@ -179,17 +182,17 @@ a:hover{
 
 #movie-poster{
     height: 100%;
-    width: 160px;
+    width: 120px;
 }
 
 #movie-poster img{
     height: 100%;
-    width: 160px;
+    width: 120px;
     object-fit: cover;
 }
 
 #movie-description{
-    padding: 20px 0px 20px 0px;
+    padding: 10px 0px 20px 0px;
     flex-grow: 3;
     font-size: 11px;
     color:rgb(157, 157, 157);
@@ -221,10 +224,11 @@ a:hover{
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #middle-bottom{
-    font-size: 15px;
+    font-size: 10px;
     margin-bottom: 10px;
 }
 
@@ -250,6 +254,10 @@ a:hover{
     filter: grayscale(100%);
     filter: brightness(90%);
 }
+
+/* #bottom{
+    overflow: hidden;
+} */
 
 /* -------------------------------------------------- */
 
@@ -285,7 +293,11 @@ a:hover{
         height: 250px;
     }
     #movie-poster{
-        width: 140px;
+        width: 160px;
+    }
+
+    #movie-poster img{
+        width: 160px;
     }
     
     #movie-description{
@@ -306,6 +318,10 @@ a:hover{
         font-size: 13px;
         margin-top: 15px;
         margin-bottom: 15px;
+    }
+
+    #middle-bottom{
+        font-size: 13px;
     }
     
     #middle button{
@@ -356,6 +372,9 @@ a:hover{
         font-size: 18px;
         margin-top: 20px;
         margin-bottom: 20px;    
+    }
+    #middle-bottom{
+        font-size: 18px;
     }
     
     #middle button{

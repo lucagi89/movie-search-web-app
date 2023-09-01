@@ -20,7 +20,8 @@ export class Movie {
                     ${!imdbID.includes('+')?`<button id='watchlist-btn' class = 'watchlist' data-movie = "${imdbID}"><img src='./images/addbtn.png'/> Watchlist</button>`:` <button id='remove-btn' class = 'watchlist' data-movie = "${imdbID}"><img src='./images/checkmark.png'/> Remove</button>`}
                 </div>
                 <div id='middle-bottom'><p>${Actors}</p></div>
-                <p id='bottom'>${Plot}</p>
+                <p id='bottom'>${Plot}
+                </p>
             </div>
         </div>
         `
